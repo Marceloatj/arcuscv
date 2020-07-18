@@ -1,3 +1,4 @@
+import 'package:arcuscv/activitys/ActPrincipal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,8 @@ class _LoginState extends State<Login> {
 
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height / 3
+                        + MediaQuery.of(context).size.height / 3,
                 margin: EdgeInsets.only(top: 32),
 
                 child: Column(
@@ -113,12 +115,16 @@ class _LoginState extends State<Login> {
                       ),
                     ),
 
+                    // espaçamento
+                    SizedBox(
+                      height: 10.0,
+                    ),
 
-                    Container(   // Botao entrar
+                    Container(
                       width: MediaQuery.of(context).size.width/1.3,
                       height: 50,
                       margin: EdgeInsets.only(top: 60),
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
@@ -126,20 +132,28 @@ class _LoginState extends State<Login> {
                                 Color(0xFF7B98A5)
                               ]
                           ),
-                          borderRadius: BorderRadius.all(
+                          borderRadius: BorderRadius.all(  // borda do container arredondado
                               Radius.circular(50)
                           )
                       ),
-                      child: Center(
-                        child: Text("Entrar".toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold
-                          ),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(   // borda do Button arredondado
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      child: Text(
+                        "Entrar",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
-                    )
+                      onPressed: (){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ActPrincipal()));
+                      },
+                    ),
+                    ),
 
                   ],
                 ),

@@ -1,4 +1,6 @@
+import 'package:arcuscv/activitys/Login.dart';
 import 'package:flutter/material.dart';
+import 'package:arcuscv/icons/my_flutter_app_icons.dart';
 
 class ActPrincipal extends StatefulWidget {
   @override
@@ -18,6 +20,16 @@ class _ActPrincipalState extends State<ActPrincipal> {
             fontSize: 18.0
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(MyFlutterApp.logout,
+            color: Colors.white,),
+            onPressed: (){
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Login()));
+            },
+          )
+        ],
         centerTitle: true,
         backgroundColor: Colors.blueGrey,
       ),

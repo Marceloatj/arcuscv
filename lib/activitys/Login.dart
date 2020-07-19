@@ -1,3 +1,4 @@
+
 import 'package:arcuscv/activitys/ActPrincipal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,22 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  String _usuario = 'arcus';
+  String _senha = '123';
+
+  final _usuarioController = TextEditingController();
+  final _senhaController = TextEditingController();
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
-        child: Container(
+        child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               Container(
@@ -51,20 +62,21 @@ class _LoginState extends State<Login> {
                         + MediaQuery.of(context).size.height / 3,
                 margin: EdgeInsets.only(top: 32),
 
-                child: Column(
+                child: ListView(
+                  padding: EdgeInsets.all(16.0),
                   children: <Widget>[
 
                     Padding(
-                      padding: EdgeInsets.only(top: 40),
+                      padding: EdgeInsets.only(top: 20),
                     ),
 
                     Container(  // Campo de Usuario
                       width: MediaQuery.of(context).size.width/1.3,
-                      height: 50,
+                      height: 70,
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
-                              Radius.circular(50)
+                              Radius.circular(25)
                           ),
                           color: Colors.white,
                           boxShadow: [
@@ -74,7 +86,8 @@ class _LoginState extends State<Login> {
                             )
                           ]
                       ),
-                      child: TextField(
+                      child: TextFormField(
+                        controller: _usuarioController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.person,
@@ -83,17 +96,21 @@ class _LoginState extends State<Login> {
                           hintText: "Usuário",
 
                         ),
+                        validator: (text){
+                          if(text.isEmpty  || text != _usuario  )
+                            return "Usuário inválido";
+                          },
                       ),
                     ),
 
                     Container(  // Campo de Senha
                       width: MediaQuery.of(context).size.width/1.3,
-                      height: 50,
+                      height: 70,
                       margin: EdgeInsets.only(top: 15),
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
-                              Radius.circular(50)
+                              Radius.circular(25)
                           ),
                           color: Colors.white,
                           boxShadow: [
@@ -103,15 +120,20 @@ class _LoginState extends State<Login> {
                             )
                           ]
                       ),
-                      child: TextField(
+                      child: TextFormField(
+                        controller: _senhaController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.vpn_key,
                             color: Colors.blueGrey,
                           ),
                           hintText: "Senha",
-
                         ),
+                        obscureText: true,
+                        validator: (text){
+                          if(text.isEmpty || text != _senha)
+                            return "Senha inválida";
+                        },
                       ),
                     ),
 
@@ -133,12 +155,12 @@ class _LoginState extends State<Login> {
                               ]
                           ),
                           borderRadius: BorderRadius.all(  // borda do container arredondado
-                              Radius.circular(50)
+                              Radius.circular(25)
                           )
                       ),
                     child: FlatButton(
                       shape: RoundedRectangleBorder(   // borda do Button arredondado
-                        borderRadius: BorderRadius.circular(50.0),
+                        borderRadius: BorderRadius.circular(25.0),
                       ),
                       child: Text(
                         "Entrar",
@@ -149,8 +171,13 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       onPressed: (){
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ActPrincipal()));
+                        if(_formKey.currentState.validate()){
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => ActPrincipal()));
+                        }else{
+                           mensagemErro();
+                        }
+
                       },
                     ),
                     ),
@@ -166,4 +193,15 @@ class _LoginState extends State<Login> {
       )
     );
   }
+
+  void mensagemErro(){
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(content: Text("Não é possível entrar com esse Usuário e Senha!"),
+      backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 2),
+
+      )
+    );
+  }
+
 }
